@@ -10,6 +10,9 @@ export async function callClaude({ password, systemPrompt, userMessage, onStream
 
   if (!response.ok) {
     const err = await response.text()
+    if (err.includes('credit balance is too low') || err.includes('Your credit balance')) {
+      throw new Error('크레딧이 부족합니다.')
+    }
     throw new Error(`API Error ${response.status}: ${err}`)
   }
 
