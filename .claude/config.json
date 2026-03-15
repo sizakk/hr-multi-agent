@@ -1,0 +1,5 @@
+{
+  "name": "hr-multi-agent",
+  "description": "그룹 HR전략실 멀티에이전트 분석 시스템",
+  "skills": [".claude/skills/hr-agent-dev"]
+}
