@@ -1,6 +1,14 @@
 const API_URL = 'https://api.anthropic.com/v1/messages'
 const MODEL = 'claude-sonnet-4-6'
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '10mb',
+    },
+  },
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end()
 
@@ -9,7 +17,8 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: '비밀번호가 올바르지 않습니다.' })
   }
 
-  const { systemPrompt, userMessage } = req.body
+  const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body ?? {})
+  const { systemPrompt, userMessage } = body
 
   const upstream = await fetch(API_URL, {
     method: 'POST',
