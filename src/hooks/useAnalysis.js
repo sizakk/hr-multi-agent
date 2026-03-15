@@ -42,12 +42,19 @@ export function useAnalysis({ password, allData }) {
     const industryData = getSameIndustryData(allData, companyName)
     const industryName = getIndustryName(allData, companyName)
 
+    // 디버그: 로드된 파일 및 회사 데이터 확인
+    const loadedFiles = Object.keys(allData)
+    const foundFiles = Object.keys(companyData)
+    const debugInfo = foundFiles.length > 0
+      ? `로드된 파일: ${loadedFiles.join(', ')}\n매칭된 파일: ${foundFiles.join(', ')}`
+      : `⚠️ 회사 데이터 없음!\n로드된 파일: ${loadedFiles.join(', ')}\n선택 회사명: "${companyName}"\n파일 내 샘플 회사명: ${loadedFiles.map(f => allData[f]?.[0]?.['회사명'] || '(회사명 컬럼 없음)').join(', ')}`
+
     addMessage({
       agentId: 'system',
       name: '시스템',
       role: '',
       color: '#8888a0',
-      text: `📢 ${companyName} (${industryName}) 분석 회의를 시작합니다.\n분석관 5명이 순차적으로 보고하고, ${TEAM_LEADER.name} 팀장이 종합 보고서를 작성합니다.`,
+      text: `📢 ${companyName} (${industryName || '산업군 미확인'}) 분석 회의를 시작합니다.\n분석관 5명이 순차적으로 보고하고, ${TEAM_LEADER.name} 팀장이 종합 보고서를 작성합니다.\n\n${debugInfo}`,
     })
 
     const agentReports = []
