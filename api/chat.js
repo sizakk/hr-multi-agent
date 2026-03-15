@@ -1,5 +1,5 @@
 const API_URL = 'https://api.anthropic.com/v1/messages'
-const MODEL = 'claude-sonnet-4-20250514'
+const MODEL = 'claude-sonnet-4-6'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end()
