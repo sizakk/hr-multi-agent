@@ -102,7 +102,7 @@ export default function App() {
 
     for (const file of Array.from(fileList)) {
       const text = await readFileAsText(file)
-      const baseName = file.name.replace(/\.csv$/i, '')
+      const baseName = file.name.replace(/\.csv$/i, '').normalize('NFC')
       data[baseName] = parseCSVText(text)
       names.push(file.name)
     }
