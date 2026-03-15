@@ -45,9 +45,13 @@ export function useAnalysis({ password, allData }) {
     // 디버그: 로드된 파일 및 회사 데이터 확인
     const loadedFiles = Object.keys(allData)
     const foundFiles = Object.keys(companyData)
-    const debugInfo = foundFiles.length > 0
-      ? `로드된 파일: ${loadedFiles.join(', ')}\n매칭된 파일: ${foundFiles.join(', ')}`
-      : `⚠️ 회사 데이터 없음!\n로드된 파일: ${loadedFiles.join(', ')}\n선택 회사명: "${companyName}"\n파일 내 샘플 회사명: ${loadedFiles.map(f => allData[f]?.[0]?.['회사명'] || '(회사명 컬럼 없음)').join(', ')}`
+    const firstAgent = AGENTS[0]
+    const firstRelevant = {}
+    for (const fName of firstAgent.files) {
+      if (companyData[fName]) firstRelevant[fName] = companyData[fName]
+    }
+    const firstRelevantJson = JSON.stringify(firstRelevant, null, 2)
+    const debugInfo = `로드된 파일: ${loadedFiles.join(', ')}\n매칭된 파일: ${foundFiles.join(', ')}\n첫번째 에이전트(${firstAgent.name}) relevantData 크기: ${firstRelevantJson.length}자\nrelevantData 미리보기: ${firstRelevantJson.slice(0, 100)}`
 
     addMessage({
       agentId: 'system',
